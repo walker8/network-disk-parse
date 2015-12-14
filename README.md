@@ -1,5 +1,8 @@
-网盘直链解析 2015/12/11 更新
+网盘直链解析 
 ==========================
+
+###更新日志：
+2015-12-14：增加百度云的直链解析
 
 ###用途：
 如果你做资源站，或者需要用户下载自己写的程序，程序较大远远超出服务器的能力，这时你需要借助一些网盘来分享自己的资源，但你又不想麻烦用户到网盘分享页面下载文件，这时你就需要网盘直链解析了！网盘直链解析可以在服务端就直接解析出文件的真实下载地址，这样用户无需转跳就可以下载文件了，在用户看来，这跟直链没有任何区别！
@@ -61,13 +64,30 @@ http://www.yourdomain.com/down.php?url=cFhEJLIGPa2PW  (无密码)
 
 然后你可以用下载工具(如迅雷)下载文件，甚至可以离线到自己的网盘(如百度云)
 
+baidujiexi.php的用法类似，但返回参数略有不同，目前暂时只支持不加密的单文件解析，注意，长连接需将&换成*才能正常解析
+
+参数可以如下：
+
+http://www.yourdomain.com/baidujiexi.php?url=http://pan.baidu.com/s/1o6GfmYY
+
+http://www.yourdomain.com/baidujiexi.php?url=http://pan.baidu.com/share/link?uk=2653662981*shareid=206077485 
+
+http://www.yourdomain.com/down.php?url=http://pan.baidu.com/share/link?shareid=623475790*uk=1074070979*fid=614888901738962 
+
 ###演示站点：
 
 网盘在线解析：[http://so.ygyhg.com/jiexi](http://so.ygyhg.com/jiexi)
 
-api调用接口：[http://so.ygyhg.com/360jiexi.php?url=http://yunpan.cn/cFhEJLIGPa2PW](http://so.ygyhg.com/360jiexi.php?url=http://yunpan.cn/cFhEJLIGPa2PW)
+api调用接口(同时支持百度和360云盘)：[http://so.ygyhg.com/dlink?url=http://yunpan.cn/cFhEJLIGPa2PW](http://so.ygyhg.com/dlink?url=http://yunpan.cn/cFhEJLIGPa2PW)
 
 以上站点仅供演示与测试，如需使用请将源码上传到自己的服务器！！！
 
 ###其他：
 博客地址：[http://www.ygyhg.com/107.html](http://www.ygyhg.com/107.html)
+
+###补充说明：
+360云盘和百度云对单位时间内的解析次数都有所限制，尤其是百度云，短时间内解析超过三次就需强行输入验证码，360云盘好些，只是对加密文件有所限制
+
+解决方法：
+
+解析出来的直链地址有一定的时效性，百度云盘据说有8小时(具体大家可以自己测)，360我也不清楚，但至少比百度要长的多，所以当我们第一次把直链解析出来后，我们可以把解析结果存入数据库，在规定时间内(比如8小时)如果有用户对同一地址进行解析，我们直接调用数据库里的数据即可，这样不仅解决了解析次数的限制，也大大增加了解析速度！！！
