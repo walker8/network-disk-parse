@@ -239,6 +239,7 @@ if(strpos($content, 'fs_id')){
  		if(strstr($response,"\"errno\":-20")){
  			$res=array('errno'=>-20,'errmsg'=>'百度云限制短时间内解析不得超过三次！');
  			echo json_encode($res);
+ 			return;
  		}
  		echo $response;
 		return;
